@@ -2,7 +2,13 @@
 /* @var $this ReaderController */
 /* @var $data Reader */
 ?>
-
+        <?php 
+        $books = array();
+        if($data->Books)
+            foreach ($data->Books as $key => $book) {
+                $books[] = $book->title;
+            }
+        ?>
 <div class="view">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
@@ -20,6 +26,11 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('date_change')); ?>:</b>
 	<?php echo CHtml::encode($data->date_change); ?>
 	<br />
-
-
+        <?php if($books): ?>
+        <span class="busy">
+            <b><?php echo 'На руках следующие книги'; ?>:</b>
+            <?php echo CHtml::encode(implode(', ', $books)); ?>
+        </span>    
+        <br />
+        <?php endif; ?>    
 </div>

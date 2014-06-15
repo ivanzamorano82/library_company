@@ -3,7 +3,7 @@
 /* @var $data Book */
 ?>
 
-<div class="view">
+<div class="view<?php echo ($data->Reader) ? ' busy' : ''?>">
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
@@ -21,7 +21,7 @@
 	<?php echo CHtml::encode($data->date_change); ?>
 	<br />
         
-        <b><?php echo CHtml::encode($data->getAttributeLabel('Authors.author_id')); ?>:</b>
+        <b><?php echo CHtml::encode($data->getAttributeLabel('Authors.name')); ?>:</b>
 	<?php
             $x = array();
             foreach ($data->Authors as $author) {
@@ -30,5 +30,9 @@
             echo CHtml::encode(implode(', ', $x)); 
         ?>
 	<br />
-
+       <?php if($data->Reader): ?>
+        <b><?php echo CHtml::encode($data->getAttributeLabel('reader_id')); ?>:</b>
+	<?php echo CHtml::encode($data->Reader->name); ?>
+	<br />
+       <?php endif; ?>
 </div>

@@ -227,3 +227,7 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+.busy{
+    background-color: #E7C1CC;
+}

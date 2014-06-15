@@ -120,9 +120,7 @@ class BookController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Book',array(
-                    'criteria' => array('with'=>'Authors'),
-                ));
+		$dataProvider=new CActiveDataProvider('Book');
                 
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -143,7 +141,7 @@ class BookController extends Controller
 			'model'=>$model,
 		));
 	}
-
+        
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -153,8 +151,7 @@ class BookController extends Controller
 	 */
 	public function loadModel($id)
 	{
-//		$model=Book::model()->findByPk($id);
-                $model=Book::model()->with('Authors')->findByPk($id);
+		$model=Book::model()->findByPk($id);
         
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');

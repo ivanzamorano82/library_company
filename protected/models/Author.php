@@ -57,7 +57,7 @@ class Author extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'name' => 'Автор',
 			'date_create' => 'Date Create',
 			'date_change' => 'Date Change',
 		);

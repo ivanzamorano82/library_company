@@ -23,6 +23,9 @@ $this->menu=array(
         echo '<tr><th>'.$key.'</th>';
         echo '<td>'.$value.'</td></tr>';
     }
+    
+    if($model->Reader)echo '<tr><th>Читатель</th><td>'.$model->Reader->name.'</td></tr>';  
+                
     $x = array();
             foreach ($model->Authors as $author) {
                 $x[] = $author->name;

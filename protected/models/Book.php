@@ -8,10 +8,11 @@
  * @property string $title
  * @property string $date_create
  * @property string $date_change
+ * @property integer $reader_id
  *
  * The followings are the available model relations:
- * @property Author[] $tblAuthors
- * @property Reader[] $tblReaders
+ * @property Reader $Reader
+ * @property Author[] $Authors
  */
 class Book extends CActiveRecord
 {
@@ -34,6 +35,7 @@ class Book extends CActiveRecord
 		return array(
 			array('title', 'required'),
 			array('title', 'length', 'max'=>255),
+                        array('reader_id','safe'),
                         array('authors','type','type'=>'array','allowEmpty'=>false,'message'=>'Необходимо выбрать хотябы одного автора'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -50,7 +52,7 @@ class Book extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Authors' => array(self::MANY_MANY, 'Author', '{{book_author}}(book_id, author_id)'),
-			'Readers' => array(self::MANY_MANY, 'Reader', '{{book_reader}}(book_id, reader_id)'),
+			'Reader' => array(self::BELONGS_TO, 'Reader', 'reader_id'),
 		);
 	}
 
@@ -61,9 +63,10 @@ class Book extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
+			'title' => 'Название книги',
 			'date_create' => 'Date Create',
 			'date_change' => 'Date Change',
+                        'reader_id' => 'Читатель'
 		);
 	}
 
@@ -89,6 +92,7 @@ class Book extends CActiveRecord
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('date_create',$this->date_create,true);
 		$criteria->compare('date_change',$this->date_change,true);
+                $criteria->compare('reader_id',$this->reader_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

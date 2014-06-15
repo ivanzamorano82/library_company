@@ -26,15 +26,18 @@
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($model,'author_id'); ?>
+		<?php echo $form->labelEx($model,'authors'); ?>
             <select multiple="multiple" size="10" name="Book[authors][]" id="Book_authors">
                 <?php 
-                $authors = Author::model()->with('Books')->findAll();
-                $books   = Book::model()->with('Authors')->findByPk($model->id);
+                $authors = Author::model()->findAll();
+                
                 $sel =array();
-                    foreach ($books->Authors as $key => $value) {
-                        $sel[] = $value->id;
+                if(isset($model->id)){
+                    $book   = $model->with('Authors')->findByPk($model->id);
+                    foreach ($book->Authors as $key => $value) {
+                        $sel[] = $value->id; // заполняем массив авторов у текущей книги для выделения при редактировании
                     }
+                }
                  foreach (CHtml::listData($authors,'id','name') as $key => $value) {
                      $selected = (in_array($key, $sel)) ? 'selected' : '';
                      echo '<option '.$selected.' value="'.$key.'">'.$value.'</option>';
@@ -44,6 +47,12 @@
 		
 		<?php echo $form->error($model,'authors'); ?>
 	</div>
+        
+        <div class="row">
+            <?php echo $form->labelEx($model,'reader_id'); ?>
+            <?php echo $form->dropDownList($model, 'reader_id', CHtml::listData(Reader::model()->findAll(), 'id','name'), array('empty'=>'(нет читателя)')) ?>
+            <?php echo $form->error($model,'reader_id'); ?>
+        </div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

@@ -10,7 +10,7 @@
  * @property string $date_change
  *
  * The followings are the available model relations:
- * @property Book[] $tblBooks
+ * @property Book[] $Books
  */
 class Reader extends CActiveRecord
 {
@@ -47,7 +47,7 @@ class Reader extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'Books' => array(self::MANY_MANY, 'Book', '{{book_reader}}(reader_id, book_id)'),
+			'Books' => array(self::HAS_MANY, 'Book', 'reader_id'),
 		);
 	}
 
@@ -58,7 +58,7 @@ class Reader extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'name' => 'Имя читателя',
 			'date_create' => 'Date Create',
 			'date_change' => 'Date Change',
 		);
