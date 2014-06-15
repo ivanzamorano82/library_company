@@ -20,6 +20,15 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('date_change')); ?>:</b>
 	<?php echo CHtml::encode($data->date_change); ?>
 	<br />
-
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('Authors.author_id')); ?>:</b>
+	<?php
+            $x = array();
+            foreach ($data->Authors as $author) {
+                $x[] = $author->name;
+            }
+            echo CHtml::encode(implode(', ', $x)); 
+        ?>
+	<br />
 
 </div>

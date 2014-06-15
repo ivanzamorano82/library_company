@@ -17,13 +17,17 @@ $this->menu=array(
 ?>
 
 <h1>View Book #<?php echo $model->id; ?></h1>
+<table class="detail-view">
+<?php 
+    foreach ($model->attributes as $key => $value) {
+        echo '<tr><th>'.$key.'</th>';
+        echo '<td>'.$value.'</td></tr>';
+    }
+    $x = array();
+            foreach ($model->Authors as $author) {
+                $x[] = $author->name;
+            }
+            echo '<tr><th>Авторы</th><td>'.  implode(', ', $x).'</td></tr>';  
+?>
+</table>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'title',
-		'date_create',
-		'date_change',
-	),
-)); ?>

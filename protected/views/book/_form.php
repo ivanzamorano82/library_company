@@ -3,7 +3,7 @@
 /* @var $model Book */
 /* @var $form CActiveForm */
 ?>
-
+            
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -27,13 +27,21 @@
         
         <div class="row">
 		<?php echo $form->labelEx($model,'author_id'); ?>
-		<?php 
-                    $authors = Author::model()->findAll();
-                    echo $form->dropDownList($model,'authors',
-                            CHtml::listData($authors,'id','name'),
-                            array('multiple' => 'multiple', 'size'=>'10')
-                        );  
+            <select multiple="multiple" size="10" name="Book[authors][]" id="Book_authors">
+                <?php 
+                $authors = Author::model()->with('Books')->findAll();
+                $books   = Book::model()->with('Authors')->findByPk($model->id);
+                $sel =array();
+                    foreach ($books->Authors as $key => $value) {
+                        $sel[] = $value->id;
+                    }
+                 foreach (CHtml::listData($authors,'id','name') as $key => $value) {
+                     $selected = (in_array($key, $sel)) ? 'selected' : '';
+                     echo '<option '.$selected.' value="'.$key.'">'.$value.'</option>';
+                 }
                 ?>
+            </select>
+		
 		<?php echo $form->error($model,'authors'); ?>
 	</div>
 

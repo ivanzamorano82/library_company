@@ -127,6 +127,10 @@ class Book extends CActiveRecord
         protected function afterSave() {
             parent::afterSave();
             
+            if(!$this->isNewRecord){
+                BookAuthor::model()->deleteAll('book_id = :book_id', array('book_id'=>  $this->id));
+            }
+            
             if(isset($_POST['Book']['authors'])){
                 foreach ($_POST['Book']['authors'] as $key => $author_id) {
                     $BookAuthor = new BookAuthor();

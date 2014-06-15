@@ -120,7 +120,10 @@ class BookController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Book');
+		$dataProvider=new CActiveDataProvider('Book',array(
+                    'criteria' => array('with'=>'Authors'),
+                ));
+                
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -150,7 +153,9 @@ class BookController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Book::model()->findByPk($id);
+//		$model=Book::model()->findByPk($id);
+                $model=Book::model()->with('Authors')->findByPk($id);
+        
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
