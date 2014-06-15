@@ -15,6 +15,7 @@
  */
 class Book extends CActiveRecord
 {
+        public $authors;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -33,7 +34,7 @@ class Book extends CActiveRecord
 		return array(
 			array('title', 'required'),
 			array('title', 'length', 'max'=>255),
-			array('date_create, date_change', 'safe'),
+                        array('authors','type','type'=>'array','allowEmpty'=>false,'message'=>'Необходимо выбрать хотябы одного автора'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, title, date_create, date_change', 'safe', 'on'=>'search'),
@@ -48,8 +49,8 @@ class Book extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'tblAuthors' => array(self::MANY_MANY, 'Author', '{{book_author}}(book_id, author_id)'),
-			'tblReaders' => array(self::MANY_MANY, 'Reader', '{{book_reader}}(book_id, reader_id)'),
+			'Authors' => array(self::MANY_MANY, 'Author', '{{book_author}}(book_id, author_id)'),
+			'Readers' => array(self::MANY_MANY, 'Reader', '{{book_reader}}(book_id, reader_id)'),
 		);
 	}
 
@@ -104,4 +105,35 @@ class Book extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        protected function beforeSave()
+        {
+            if(parent::beforeSave())
+            {
+                if($this->isNewRecord)
+                {
+                    $this->date_create = $this->date_change = date('Y-m-d');
+                }
+                else{
+                    $this->date_change = date('Y-m-d');
+                }
+                    
+                return true;
+            }
+            else
+                return false;
+        }
+        
+        protected function afterSave() {
+            parent::afterSave();
+            
+            if(isset($_POST['Book']['authors'])){
+                foreach ($_POST['Book']['authors'] as $key => $author_id) {
+                    $BookAuthor = new BookAuthor();
+                    $BookAuthor->book_id = $this->id;
+                    $BookAuthor->author_id = $author_id;
+                    $BookAuthor->save();
+                }
+            }
+        }
 }

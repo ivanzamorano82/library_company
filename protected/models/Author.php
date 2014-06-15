@@ -32,7 +32,6 @@ class Author extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('name', 'length', 'max'=>255),
-			array('date_create, date_change', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, date_create, date_change', 'safe', 'on'=>'search'),
@@ -47,7 +46,7 @@ class Author extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'tblBooks' => array(self::MANY_MANY, 'Book', '{{book_author}}(author_id, book_id)'),
+			'Books' => array(self::MANY_MANY, 'Book', '{{book_author}}(author_id, book_id)'),
 		);
 	}
 
@@ -102,4 +101,22 @@ class Author extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        protected function beforeSave()
+        {
+            if(parent::beforeSave())
+            {
+                if($this->isNewRecord)
+                {
+                    $this->date_create = $this->date_change = date('Y-m-d');
+                }
+                else{
+                    $this->date_change = date('Y-m-d');
+                }
+                    
+                return true;
+            }
+            else
+                return false;
+        }
 }

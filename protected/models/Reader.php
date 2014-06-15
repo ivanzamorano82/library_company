@@ -47,7 +47,7 @@ class Reader extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'tblBooks' => array(self::MANY_MANY, 'Book', '{{book_reader}}(reader_id, book_id)'),
+			'Books' => array(self::MANY_MANY, 'Book', '{{book_reader}}(reader_id, book_id)'),
 		);
 	}
 
@@ -102,4 +102,22 @@ class Reader extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        protected function beforeSave()
+        {
+            if(parent::beforeSave())
+            {
+                if($this->isNewRecord)
+                {
+                    $this->date_create = $this->date_change = date('Y-m-d');
+                }
+                else{
+                    $this->date_change = date('Y-m-d');
+                }
+                    
+                return true;
+            }
+            else
+                return false;
+        }
 }
