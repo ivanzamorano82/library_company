@@ -32,6 +32,7 @@
                             array('label'=>'Авторы', 'url'=>array('/author/index')),
                             array('label'=>'Книги', 'url'=>array('/book/index')),
                             array('label'=>'Читатели', 'url'=>array('/reader/index')),
+                            array('label'=>'Отчеты', 'url'=>array('/report/index')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),

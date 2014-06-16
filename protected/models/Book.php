@@ -53,6 +53,7 @@ class Book extends CActiveRecord
 		return array(
 			'Authors' => array(self::MANY_MANY, 'Author', '{{book_author}}(book_id, author_id)'),
 			'Reader' => array(self::BELONGS_TO, 'Reader', 'reader_id'),
+                        'AuthorsCount'=>array(self::STAT, 'Author', '{{book_author}}(book_id, author_id)'),
 		);
 	}
 

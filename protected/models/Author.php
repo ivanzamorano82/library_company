@@ -47,6 +47,8 @@ class Author extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'Books' => array(self::MANY_MANY, 'Book', '{{book_author}}(author_id, book_id)'),
+                        'Readers'=>array(self::HAS_MANY,'Reader',array('reader_id'=>'id'),'through'=>'Books'),
+                        //'ReadersCount'=>array(self::STAT,'Reader',array('reader_id'=>'id'),'through'=>'Books'),
 		);
 	}
 

@@ -231,3 +231,13 @@ div.search-form
 .busy{
     background-color: #E7C1CC;
 }
+
+.report{
+    border-collapse: collapse;
+}
+.report thead{
+    background-color: #E7C1CC;
+}
+.report td{
+    border: 1px solid;
+}
