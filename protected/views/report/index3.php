@@ -24,6 +24,15 @@ $this->menu = array(
     <tr>
         <td><?php echo $book->title; ?></td>
         <td><?php echo ($book->Reader) ? $book->Reader->name : '-------------------------';?></td>
+        <td>
+            <?php
+            $x = array();
+            foreach ($book->Authors as $author) {
+                $x[] = $author->name;
+            }
+            echo CHtml::encode(implode(', ', $x)); 
+        ?>
+        </td>
     </tr>
     <?php endforeach;?>
 </table>
