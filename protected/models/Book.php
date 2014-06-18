@@ -16,8 +16,9 @@
  */
 class Book extends CActiveRecord
 {
-        public $authors;
-	/**
+        //public $authors;
+        public $authorArray;
+        /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -36,7 +37,7 @@ class Book extends CActiveRecord
 			array('title', 'required'),
 			array('title', 'length', 'max'=>255),
                         array('reader_id','safe'),
-                        array('authors','type','type'=>'array','allowEmpty'=>false,'message'=>'Необходимо выбрать хотябы одного автора'),
+                        array('authorArray','type','type'=>'array','allowEmpty'=>false,'message'=>'Необходимо выбрать хотябы одного автора'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, title, date_create, date_change', 'safe', 'on'=>'search'),
@@ -144,5 +145,15 @@ class Book extends CActiveRecord
                     $BookAuthor->save();
                 }
             }
+        }
+        
+        public function getAuthorArray(){
+            $author = array();
+            if(!empty($this->Authors)){  
+                foreach ($this->Authors as $value) {
+                    $author[]=$value->id;
+                }
+            }
+            return $author ;
         }
 }

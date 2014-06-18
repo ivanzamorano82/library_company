@@ -8,11 +8,11 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'book-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
+//	'enableAjaxValidation'=>true,
+//        'enableClientValidation'=>true,
+//	'clientOptions'=>array(
+//		'validateOnSubmit'=>true,
+//	),
 )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
@@ -26,26 +26,11 @@
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($model,'authors'); ?>
-            <select multiple="multiple" size="10" name="Book[authors][]" id="Book_authors">
-                <?php 
-                $authors = Author::model()->findAll();
-                
-                $sel =array();
-                if(isset($model->id)){
-                    $book   = $model->with('Authors')->findByPk($model->id);
-                    foreach ($book->Authors as $key => $value) {
-                        $sel[] = $value->id; // заполняем массив авторов у текущей книги для выделения при редактировании
-                    }
-                }
-                 foreach (CHtml::listData($authors,'id','name') as $key => $value) {
-                     $selected = (in_array($key, $sel)) ? 'selected' : '';
-                     echo '<option '.$selected.' value="'.$key.'">'.$value.'</option>';
-                 }
-                ?>
-            </select>
-		
-		<?php echo $form->error($model,'authors'); ?>
+		<?php echo $form->labelEx($model,'AuthorArray'); ?>
+            
+            <?php echo $form->dropDownList($model, 'AuthorArray', CHtml::listData(Author::model()->findAll(), 'id', 'name'), array('multiple' => 'multiple', 'size' => '10' )) ?>
+            
+		<?php echo $form->error($model,'AuthorArray'); ?>
 	</div>
         
         <div class="row">
