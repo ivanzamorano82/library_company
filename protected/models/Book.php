@@ -17,7 +17,7 @@
 class Book extends CActiveRecord
 {
         //public $authors;
-        public $authorArray;
+        //private $authorArray;
         /**
 	 * @return string the associated database table name
 	 */
@@ -37,13 +37,18 @@ class Book extends CActiveRecord
 			array('title', 'required'),
 			array('title', 'length', 'max'=>255),
                         array('reader_id','safe'),
-                        array('authorArray','type','type'=>'array','allowEmpty'=>false,'message'=>'Необходимо выбрать хотябы одного автора'),
+                        //array('authorArray','type','type'=>'array','allowEmpty'=>false,'message'=>'Необходимо выбрать хотябы одного автора'),
+                        array('authorArray','isArray'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, title, date_create, date_change', 'safe', 'on'=>'search'),
 		);
 	}
 
+        public function isArray($attribute,$params) {
+            if(empty($this->$attribute))$this->addError ($attribute, 'Не выбран ни один из авторов');
+        }
+        
 	/**
 	 * @return array relational rules.
 	 */
@@ -68,7 +73,8 @@ class Book extends CActiveRecord
 			'title' => 'Название книги',
 			'date_create' => 'Date Create',
 			'date_change' => 'Date Change',
-                        'reader_id' => 'Читатель'
+                        'reader_id' => 'Читатель',
+                        'authorArray' => 'Авторы'
 		);
 	}
 
@@ -137,8 +143,8 @@ class Book extends CActiveRecord
                 BookAuthor::model()->deleteAll('book_id = :book_id', array('book_id'=>  $this->id));
             }
             
-            if(isset($_POST['Book']['authors'])){
-                foreach ($_POST['Book']['authors'] as $key => $author_id) {
+            if(isset($_POST['Book']['authorArray'])){
+                foreach ($_POST['Book']['authorArray'] as $key => $author_id) {
                     $BookAuthor = new BookAuthor();
                     $BookAuthor->book_id = $this->id;
                     $BookAuthor->author_id = $author_id;
@@ -155,5 +161,9 @@ class Book extends CActiveRecord
                 }
             }
             return $author ;
+        }
+        
+        public function setAuthorArray($value) {
+            $this->authorArray = $value;
         }
 }

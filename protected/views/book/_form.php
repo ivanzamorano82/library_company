@@ -8,7 +8,7 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'book-form',
-//	'enableAjaxValidation'=>true,
+	'enableAjaxValidation'=>true,
 //        'enableClientValidation'=>true,
 //	'clientOptions'=>array(
 //		'validateOnSubmit'=>true,
@@ -26,11 +26,9 @@
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($model,'AuthorArray'); ?>
-            
-            <?php echo $form->dropDownList($model, 'AuthorArray', CHtml::listData(Author::model()->findAll(), 'id', 'name'), array('multiple' => 'multiple', 'size' => '10' )) ?>
-            
-		<?php echo $form->error($model,'AuthorArray'); ?>
+		<?php echo $form->labelEx($model,'authorArray'); ?>
+            <?php echo $form->dropDownList($model, 'authorArray', CHtml::listData(Author::model()->findAll(), 'id', 'name'), array('multiple' => 'multiple', 'size' => '10' )) ?>
+		<?php echo $form->error($model,'authorArray'); ?>
 	</div>
         
         <div class="row">
